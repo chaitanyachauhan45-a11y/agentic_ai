@@ -1,0 +1,118 @@
+{
+  "name": "Edumate AI Agent",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        0,
+        0
+      ],
+      "id": "3661f352-5afb-4660-b0cd-6d432fc72381",
+      "name": "When chat message received",
+      "webhookId": "62ba9c7c-fb27-4eb2-836e-4954651a1828"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "You are EduMate AI, an educational AI assistant for college students.\n\nYour responsibilities:\n1. Explain academic concepts clearly and step-by-step.\n2. Help students understand difficult topics.\n3. Summarize study material.\n4. Generate MCQs and practice questions.\n5. Help students create study plans.\n6. Give examples when useful.\n7. Encourage learning and understanding rather than doing assessed work for the student.\n\nKeep explanations suitable for college students.\nDo not make up information. If you are unsure, clearly say so."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        224,
+        16
+      ],
+      "id": "d15deeed-bdf1-42a2-8ace-b98bdffe9ac3",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        96,
+        208
+      ],
+      "id": "0539592b-5af3-44ee-8662-7c982aa1a90c",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "l9Vx2VU8ABlY7jCj",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.4,
+      "position": [
+        240,
+        208
+      ],
+      "id": "98ac2f75-eefc-4abe-a5f6-c2f6c9c9e022",
+      "name": "Simple Memory"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "4b49ef96-9955-4bc5-908a-3bee205b6ce7",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "c4ec91d6e4943550a780e868c284e6b6bbffa22a637ec8b8451cb333a90e4cfe"
+  },
+  "nodeGroups": [],
+  "id": "HZqBRVoDjv0NnTyx",
+  "tags": []
+}
