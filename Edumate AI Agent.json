@@ -1,0 +1,150 @@
+{
+  "name": "Edumate AI Agent",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        0,
+        0
+      ],
+      "id": "3661f352-5afb-4660-b0cd-6d432fc72381",
+      "name": "When chat message received",
+      "webhookId": "62ba9c7c-fb27-4eb2-836e-4954651a1828"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "You are EduMate AI, an educational AI assistant for college students.\n\nYour responsibilities:\n1. Explain academic concepts clearly and step-by-step.\n2. Help students understand difficult topics.\n3. Summarize study material.\n4. Generate MCQs and practice questions.\n5. Help students create study plans.\n6. Give examples when useful.\n7. Encourage learning and understanding rather than doing assessed work for the student.\n\nKeep explanations suitable for college students.\nDo not make up information. If you are unsure, clearly say so."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        224,
+        16
+      ],
+      "id": "d15deeed-bdf1-42a2-8ace-b98bdffe9ac3",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        96,
+        208
+      ],
+      "id": "0539592b-5af3-44ee-8662-7c982aa1a90c",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "l9Vx2VU8ABlY7jCj",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.4,
+      "position": [
+        240,
+        208
+      ],
+      "id": "98ac2f75-eefc-4abe-a5f6-c2f6c9c9e022",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "resource": "image",
+        "modelId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-image-1-mini"
+        },
+        "prompt": "aCreate a clean educational engineering diagram of a four-stroke petrol engine. Show and clearly label the four stages: Intake, Compression, Power, and Exhaust. Include piston, cylinder, inlet valve, exhaust valve, spark plug, and crankshaft. Use a clear college textbook style with a white background.",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 2.3,
+      "position": [
+        608,
+        16
+      ],
+      "id": "993058f2-5e82-42c1-882a-8f565e07ef1c",
+      "name": "Generate an image",
+      "credentials": {
+        "openAiApi": {
+          "id": "wdrk76xKKElUaEZk",
+          "name": "n8n free OpenAI API credits"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Generate an image",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "f6b0e412-d959-496c-9fd9-1a5808d8dd03",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "c4ec91d6e4943550a780e868c284e6b6bbffa22a637ec8b8451cb333a90e4cfe"
+  },
+  "nodeGroups": [],
+  "id": "HZqBRVoDjv0NnTyx",
+  "tags": []
+}
